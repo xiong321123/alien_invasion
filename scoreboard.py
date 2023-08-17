@@ -1,6 +1,10 @@
 import pygame.font
 from pygame.sprite import Group
 from ship import Ship
+from pathlib import Path
+path = Path('high_score.txt')
+
+#contents=int(path.read_text())
 
 
 
@@ -68,6 +72,8 @@ class Scoreboard:
         """检查时候诞生了新的最高分"""
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
+            path.write_text(str(self.stats.high_score))
+
             self.prep_high_score()
     def prep_level(self):
         """将等级渲染为图像"""

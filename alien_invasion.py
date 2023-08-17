@@ -8,6 +8,7 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from button import Button
+from pygame import mixer
 
 
 
@@ -21,6 +22,20 @@ class AlienInvasion:
     def __init__(self):
         """初始化游戏并创建游戏资源"""
         pygame.init()
+        mixer.init()
+        background_sound2 = mixer.Sound('blow.mp3')
+            # 在适当的时候播放声音
+        background_sound2.play()
+
+        # background_sound2 = mixer.Sound('destination.wav')
+        #     # 在适当的时候播放声音
+        # background_sound2.play()
+
+
+        
+
+
+
         self.clock = pygame.time.Clock()
         self.settings = Settings()
 
@@ -125,6 +140,10 @@ class AlienInvasion:
         elif event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
+            fire_sound1 = mixer.Sound('blow.mp3')
+            # 在适当的时候播放声音
+            fire_sound1.play()
+
             self._fire_bullet()
 
     def _check_keyup_events(self, event):
@@ -156,6 +175,10 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True,True)
 
         if collisions:
+            fire_sound = mixer.Sound('explosion.mp3')
+            # 在适当的时候播放声音
+            fire_sound.play()
+
             for aliens in collisions.values():
 
                 self.stats.score += self.settings.alien_points * len(aliens)
@@ -178,7 +201,8 @@ class AlienInvasion:
 
         #检查是否有子弹击中了外星人
         # 如果是，就删除相应的子弹和外星人
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True,True)    
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True,True)   
+
     def _update_aliens(self):
         """检查是否有外星人位于屏幕边缘，并更新整个外星舰队的位置"""
         self._check_fleet_edges()
